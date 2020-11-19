@@ -1,0 +1,39 @@
+---
+version: "3"
+services:
+# pgdb  
+  db:
+    container_name: pg
+    image: postgres
+    restart: unless-stopped
+
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "200k"
+          max-file: "10"
+#pgadmin 
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped 
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dong@example.com
+      PGADMIN_DEFAULT_PASSWORD: '12345' 
+
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "200k"
+          max-file: "10"
